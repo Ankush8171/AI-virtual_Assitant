@@ -9,7 +9,7 @@ import axios from "axios"
 const Signin = () => {
 
   const [showPassword,setShowPassword] = useState(false);
-  const {serverUrl} = useContext(userDataContext)
+  const {serverUrl,userdata,setuserData} = useContext(userDataContext)
   const navigate = useNavigate();
 
   console.log(serverUrl)
@@ -29,11 +29,13 @@ const Signin = () => {
         email,
         password
       },{withCredentials:true})
-      console.log(result);
-     setLoading(false)
+      setuserData(result.data);
+      setLoading(false)
+      navigate("/")
 
     }catch(err){
       console.log(err)
+      setuserData(null)
       setLoading(false)
       setError(err.response.data.message)
     }

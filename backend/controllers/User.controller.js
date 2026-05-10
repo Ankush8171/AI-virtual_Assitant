@@ -1,19 +1,26 @@
+import User from "../models/User.model.js";
 
-import user from "../models/User.model.js"
+export const getCurrentUser = async (req, res) => {
+  try {
 
-export const getCurrentUser = async(req,user)=>{
-    try{
+    const userId = req.userId;
 
-        const userId = req.userId
-        const user = await user.findById(userId).select("-password")
-        if(!user){
-            return res.status(500).json({message:" user not found"})
-        }
+    const currentUser = await User.findById(userId).select("-password");
 
-        return res.status(200).json(user)
-
-    }catch(err){
-        console.log(err);
-        return res.status(400).json({message:"get current user error"})
+    if (!currentUser) {
+      return res.status(404).json({
+        message: "User not found",
+      });
     }
-}
+
+    return res.status(200).json(currentUser);
+
+  } catch (err) {
+
+    console.log(err);
+
+    return res.status(500).json({
+      message: "Get current user error",
+    });
+  }
+};
