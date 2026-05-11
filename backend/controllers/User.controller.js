@@ -24,3 +24,32 @@ export const getCurrentUser = async (req, res) => {
     });
   }
 };
+
+
+export const updateAssistant = async (req,res)=>{
+   try{
+
+    const {assistantName,imageUrl} = req.body;
+    const assistantImage;
+
+    if(req.file){
+      assistantImage = await uploadOnCloudinary(req.file.path);
+    }else{
+      assistantImage = imageUrl
+    }
+
+    const user = await User.findByIdAndUpdate(req.userId,{
+      assistantName,assistantImage
+    },{new:true}).select("-password")
+
+    return res.status(200).json(user);
+
+   }catch (err) {
+
+    console.log(err);
+
+    return res.status(500).json({
+      message: "update assistance error",
+    });
+  }
+}

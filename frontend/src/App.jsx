@@ -4,6 +4,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Signin from "./pages/Signin";
 import Customize from "./pages/Customize";
+import Customize2 from "./pages/Customize2";
 import Home from "./pages/Home";
 
 import { userDataContext } from "./context/userContext";
@@ -47,6 +48,15 @@ const App = () => {
         element={
           userdata
           ?<Customize />
+          :<Navigate to ={"/signin"}/>
+        }
+      />
+
+      <Route
+        path="/customize2"
+        element={
+          userdata
+          ?<Customize2 />
           :<Navigate to ={"/signin"}/>
         }
       />

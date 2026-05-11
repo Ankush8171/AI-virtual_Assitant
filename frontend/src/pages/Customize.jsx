@@ -9,6 +9,7 @@ import image6 from "../assets/image6.jpeg";
 import image7 from "../assets/image7.jpeg";
 import { RiImageAddLine } from "react-icons/ri";
 import { userDataContext } from "../context/userContext";
+import { useNavigate } from "react-router-dom";
 
 const Customize = () => {
 
@@ -18,8 +19,9 @@ const Customize = () => {
     frontendImage, setFrontendImage,
     bakendImage, setBackendImage,
     selectedImage,setselectedImage} = useContext(userDataContext)
-    
-  const inputImage = useRef()
+
+  const inputImage = useRef();
+  const navigate = useNavigate()
 
   const handleImage=(e)=>{
     const file =e.target.files[0]
@@ -28,7 +30,7 @@ const Customize = () => {
   }
   return (
     <div
-      className="w-full h-[100 vh] bg-gradient-to-t from-[black] to-[#030353] flex justify-center
+      className="w-full min-h-screen bg-gradient-to-t from-[black] to-[#030353] flex justify-center
      items-center flex-col p-[20px]"
     >
       <h1 className="text-white text-[30px] text-center mb-[30px]">
@@ -45,10 +47,12 @@ const Customize = () => {
         <Card image={image7} />
 
         <div
-          className="w-[70px] h-[140px] lg:w-[150px] lg:h-[250px] bg-[#030326] border-2 border-[#0000ff66] rounded-2xl overflow-hidden
-    hover:shadow-2xl hover:shadow-blue-950 cursor-pointer hover:border-2 hover:border-white flex items-center justify-center"
-    onClick={()=>inputImage.current.click()}
-        >
+          className={`w-[70px] h-[140px] lg:w-[150px] lg:h-[250px] bg-[#030326] border-2 border-[#0000ff66] rounded-2xl overflow-hidden
+    hover:shadow-2xl hover:shadow-blue-950 cursor-pointer hover:border-2 hover:border-white flex items-center justify-center ${selectedImage== "input" ?"border-4 border-white shadow-2xl  shadow-blue-950":null}`}
+    onClick={()=>{
+      inputImage.current.click()
+      setselectedImage("input")
+    }}>
           {
             !frontendImage &&  <RiImageAddLine className="text-white w-[25px] h-[25px]" />
           }
@@ -60,9 +64,12 @@ const Customize = () => {
         <input onChange={handleImage}
          type="file" accept='image/*' ref={inputImage} hidden/>
       </div>
-      <button className="mt-[30px] font-semibold text-black text-[19px] min-w-[130px] h-[60px] bg-white rounded-full cursor-pointer">
+
+      {selectedImage && <button onClick={()=>navigate("/customize2")}
+      className="mt-[30px] cursor-pointer font-semibold text-black text-[19px] min-w-[130px] h-[60px] bg-white rounded-full cursor-pointer">
         Next
-      </button>
+      </button>}
+      
     </div>
   );
 };
