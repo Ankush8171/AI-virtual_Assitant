@@ -1,10 +1,9 @@
 import User from "../models/User.model.js";
+import  uploadOnCloudinary from "../config/cloudinary.js"
 
 export const getCurrentUser = async (req, res) => {
   try {
-
-    const userId = req.userId;
-
+    const userId = req.userId; 
     const currentUser = await User.findById(userId).select("-password");
 
     if (!currentUser) {
@@ -13,10 +12,13 @@ export const getCurrentUser = async (req, res) => {
       });
     }
 
-    return res.status(200).json(currentUser);
-
+    return res.status(200).json({
+   currentUser,
+   cookies:req.cookies,
+   userId:req.userId
+})
+    //return res.status(200).json(currentUser);
   } catch (err) {
-
     console.log(err);
 
     return res.status(500).json({
@@ -25,31 +27,34 @@ export const getCurrentUser = async (req, res) => {
   }
 };
 
+export const updateAssistant = async (req, res) => {
+  try {
+    const { assistantName, imageUrl } = req.body;
+    let assistantImage;
 
-export const updateAssistant = async (req,res)=>{
-   try{
-
-    const {assistantName,imageUrl} = req.body;
-    const assistantImage;
-
-    if(req.file){
+    if (req.file) {
       assistantImage = await uploadOnCloudinary(req.file.path);
-    }else{
-      assistantImage = imageUrl
+    } else {
+      assistantImage = imageUrl;
     }
 
-    const user = await User.findByIdAndUpdate(req.userId,{
-      assistantName,assistantImage
-    },{new:true}).select("-password")
+    // console.log(assistantImage);
+
+    const user = await User.findByIdAndUpdate(
+      req.userId,
+      {
+        assistantName,
+        assistantImage,
+      },
+      { returnDocument: "after" },
+    ).select("-password");
 
     return res.status(200).json(user);
-
-   }catch (err) {
-
+  } catch (err) {
     console.log(err);
 
     return res.status(500).json({
       message: "update assistance error",
     });
   }
-}
+};

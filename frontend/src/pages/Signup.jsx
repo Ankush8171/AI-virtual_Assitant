@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react'
-import bg from "../assets/authBg.png"
+
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { userDataContext } from '../context/userContext';
 import axios from "axios"
 
+
+const bg = "/assets/authBg.png";
 
 const Signup = () => {
 

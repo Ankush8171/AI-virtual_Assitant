@@ -13,6 +13,9 @@ const App = () => {
 
   const { userdata } = useContext(userDataContext);
 
+  // only while checking auth
+  
+
   return (
     <Routes>
 
@@ -21,7 +24,9 @@ const App = () => {
         element={
           userdata?.assistantImage && userdata?.assistantName
             ? <Home />
-            : <Navigate to="/customize" />
+            : userdata
+            ? <Navigate to="/customize" />
+            : <Navigate to="/signin" />
         }
       />
 
@@ -38,7 +43,7 @@ const App = () => {
         path="/signin"
         element={
           userdata
-            ? <Navigate to={"/"} />
+            ? <Navigate to="/customize" />
             : <Signin />
         }
       />
@@ -47,8 +52,8 @@ const App = () => {
         path="/customize"
         element={
           userdata
-          ?<Customize />
-          :<Navigate to ={"/signin"}/>
+            ? <Customize />
+            : <Navigate to="/signup" />
         }
       />
 
@@ -56,8 +61,8 @@ const App = () => {
         path="/customize2"
         element={
           userdata
-          ?<Customize2 />
-          :<Navigate to ={"/signin"}/>
+            ? <Customize2 />
+            : <Navigate to="/signup" />
         }
       />
 

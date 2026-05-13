@@ -1,10 +1,11 @@
 import React, { useContext, useState } from 'react'
-import bg from "../assets/authBg.png"
+
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { userDataContext } from '../context/userContext';
 import axios from "axios"
 
+const bg = "/assets/authBg.png";
 
 const Signin = () => {
 
@@ -25,7 +26,7 @@ const Signin = () => {
     setLoading(true)
     try{
 
-      let result = await axios.post(`${serverUrl}/api/auth/signin`,{
+      let result = await axios.post(`${serverUrl}/api/auth/login`,{
         email,
         password
       },{withCredentials:true})
@@ -73,7 +74,11 @@ const Signin = () => {
           {showPassword && <FaRegEyeSlash  className=' w-[25px] h-[25px] absolute top-[18px] right-[20px] text-[white] cursor-pointer'
           onClick={()=>setShowPassword(false)} />}
         </div>
-        {err.length >0 && <p className='text-red-500 text-[17px]'> *{err}</p>}
+        {err && (
+  <p className='text-red-500 text-[17px]'>
+    *{err}
+  </p>
+)}
 
         <button 
         type="submit"

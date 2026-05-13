@@ -7,10 +7,10 @@ const UserContext = ({ children }) => {
 
   const serverUrl = "http://localhost:8000";
 
-  const [userdata, setuserData] = useState(null);
+    const [userdata, setuserData] = useState(null);
     const [frontendImage, setFrontendImage] = useState(null);
-    const [bakendImage, setBackendImage] = useState(null);
-    const [selectedImage,setselectedImage] = useState(null)
+    const [backendImage, setBackendImage] = useState(null);
+    const [selectedImage,setSelectedImage] = useState(null)
 
   const handleCurrentUser = async () => {
     try {
@@ -39,8 +39,8 @@ const UserContext = ({ children }) => {
     userdata,
     setuserData,
     frontendImage, setFrontendImage,
-    bakendImage, setBackendImage,
-    selectedImage,setselectedImage
+    backendImage, setBackendImage,
+    selectedImage,setSelectedImage
   };
 
   return (
